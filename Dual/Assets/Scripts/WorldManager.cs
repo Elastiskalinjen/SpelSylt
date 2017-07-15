@@ -1,0 +1,157 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.PostProcessing;
+
+public class WorldManager : MonoBehaviour {
+
+    public enum WorldType
+    {
+        Light, Dark, Shared
+    }
+
+    [SerializeField]
+    private GameObject LightWorld;
+
+    [SerializeField]
+    private GameObject DarkWorld;
+
+    [SerializeField]
+    private GameObject SharedWorld;
+
+    [SerializeField]
+    private PostProcessingProfile LightEffect;
+
+    [SerializeField]
+    private PostProcessingProfile DarkEffect;
+
+    private WorldType CurrentWorldType;
+
+    private PostProcessingBehaviour Effects;
+
+    private Player Player;
+
+    // Use this for initialization
+    void Start () {
+        Effects = FindObjectOfType<PostProcessingBehaviour>();
+        Player = FindObjectOfType<Player>();
+        OnNewLevel();
+	}
+
+    private void OnNewLevel()
+    {
+        LightWorld.SetActive(true);
+        DarkWorld.SetActive(false);
+        SharedWorld.SetActive(true);
+        CurrentWorldType = WorldType.Light;
+    }
+
+    public void SwitchWorld()
+    {
+        StartCoroutine(SwapAsync());
+        //SwitchWorld(CurrentWorldType == WorldType.Dark ? WorldType.Light : WorldType.Dark);
+    }
+
+    private void SetNewWorld()
+    {
+       var type = CurrentWorldType == WorldType.Dark ? WorldType.Light : WorldType.Dark;
+
+        if (type == WorldType.Light)
+        {
+            LightWorld.SetActive(true);
+            DarkWorld.SetActive(false);
+            Effects.profile = LightEffect;
+            CurrentWorldType = WorldType.Light;
+        }
+        else if (type == WorldType.Dark)
+        {
+            LightWorld.SetActive(false);
+            DarkWorld.SetActive(true);
+            Effects.profile = DarkEffect;
+            CurrentWorldType = WorldType.Dark;
+        }
+    }
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
+
+
+    //[SerializeField]
+    //private Vingette _vingette;
+    [SerializeField]
+    private AnimationCurve _innerVingette;
+    [SerializeField]
+    private AnimationCurve _outerVingette;
+    [SerializeField]
+    private AnimationCurve _saturation;
+
+    [SerializeField]
+    private AnimationCurve _fov;
+    [SerializeField]
+    private AnimationCurve _timeScale;
+   // [SerializeField]
+   // private Transform _itemTransform;
+   // [SerializeField]
+   // private AnimationCurve _itemPosition;
+
+    private bool _swapTiggered;
+    private readonly float _swapTime = 0.45f;
+    private AudioSource _audio;
+
+    public static bool Swapping
+    {
+        get; private set;
+    }
+
+    /// <summary>
+	/// Controls a bunch of stuff like vingette and FoV over time and calls the swap cameras function after a fixed duration.
+	/// </summary>
+	IEnumerator SwapAsync()
+    {
+        Swapping = true;
+        _swapTiggered = false;
+
+       // _audio.PlayOneShot(_audio.clip);
+
+        for (float t = 0; t < 1.0f; t += Time.unscaledDeltaTime * 1.8f)
+        {
+                Player.Camera.fieldOfView = _fov.Evaluate(t);
+            //_vingette.MinRadius = _innerVingette.Evaluate(t);
+            ///_vingette.MaxRadius = _outerVingette.Evaluate(t);
+            //_vingette.Saturation = _saturation.Evaluate(t);
+            Time.timeScale = _timeScale.Evaluate(t);
+
+           // _itemTransform.localPosition = new Vector3(-0.5f, -0.5f, _itemPosition.Evaluate(t));
+
+            if (t > _swapTime && !_swapTiggered)
+            {
+                _swapTiggered = true;
+                // _twinCameras.SwapCameras();
+                SetNewWorld();
+            }
+
+            yield return null;
+        }
+
+        // technically a huge lag spike could cause this to be missed in the coroutine so double check it here.
+        if (!_swapTiggered)
+        {
+            _swapTiggered = true;
+            SetNewWorld();
+            //_twinCameras.SwapCameras();
+        }
+
+           Player.Camera.fieldOfView = _fov.Evaluate(1.0f);
+
+        //_vingette.MinRadius = _innerVingette.Evaluate(1.0f);
+        //_vingette.MaxRadius = _outerVingette.Evaluate(1.0f);
+       // _vingette.Saturation = 1.0f;
+      //  _itemTransform.localPosition = new Vector3(-0.5f, -0.5f, 0.5f);
+
+        Time.timeScale = 1.0f;
+
+        Swapping = false;
+    }
+}
