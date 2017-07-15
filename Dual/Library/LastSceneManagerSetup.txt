@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Levels/FirstScene.unity
+- path: Assets/Levels/Sebe cp level.unity
   isLoaded: 1
   isActive: 1
