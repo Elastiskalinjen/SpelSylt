@@ -10,11 +10,9 @@ public class WorldManager : MonoBehaviour {
         Light, Dark, Shared
     }
 
-    [SerializeField]
-    private GameObject LightWorld;
+    public GameObject LightWorld;
 
-    [SerializeField]
-    private GameObject DarkWorld;
+    public GameObject DarkWorld;
 
     [SerializeField]
     private GameObject SharedWorld;
@@ -25,7 +23,7 @@ public class WorldManager : MonoBehaviour {
     [SerializeField]
     private PostProcessingProfile DarkEffect;
 
-    private WorldType CurrentWorldType;
+    public WorldType CurrentWorldType {get; private set;}
 
     private PostProcessingBehaviour Effects;
 
