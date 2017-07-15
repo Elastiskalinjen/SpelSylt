@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PostProcessing;
@@ -15,6 +16,11 @@ public class WorldManager : MonoBehaviour {
     public GameObject DarkWorld;
 
     [SerializeField]
+    private int TotalRestores = 1;
+
+    private int NumberOfRestores;
+
+    [SerializeField]
     private GameObject SharedWorld;
 
     [SerializeField]
@@ -22,6 +28,12 @@ public class WorldManager : MonoBehaviour {
 
     [SerializeField]
     private PostProcessingProfile DarkEffect;
+
+    [SerializeField]
+    private Material LightSky;
+
+    [SerializeField]
+    private Material DarkSky;
 
     public WorldType CurrentWorldType {get; private set;}
 
@@ -59,6 +71,7 @@ public class WorldManager : MonoBehaviour {
             LightWorld.SetActive(true);
             DarkWorld.SetActive(false);
             Effects.profile = LightEffect;
+            RenderSettings.skybox = LightSky;
             CurrentWorldType = WorldType.Light;
         }
         else if (type == WorldType.Dark)
@@ -66,6 +79,7 @@ public class WorldManager : MonoBehaviour {
             LightWorld.SetActive(false);
             DarkWorld.SetActive(true);
             Effects.profile = DarkEffect;
+            RenderSettings.skybox = DarkSky;
             CurrentWorldType = WorldType.Dark;
         }
     }
@@ -89,10 +103,17 @@ public class WorldManager : MonoBehaviour {
     private AnimationCurve _fov;
     [SerializeField]
     private AnimationCurve _timeScale;
-   // [SerializeField]
-   // private Transform _itemTransform;
-   // [SerializeField]
-   // private AnimationCurve _itemPosition;
+
+    public void AddRestoreObject()
+    {
+        NumberOfRestores++;
+
+    }
+
+    // [SerializeField]
+    // private Transform _itemTransform;
+    // [SerializeField]
+    // private AnimationCurve _itemPosition;
 
     private bool _swapTiggered;
     private readonly float _swapTime = 0.45f;

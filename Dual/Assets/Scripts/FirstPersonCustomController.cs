@@ -132,6 +132,18 @@ public class FirstPersonCustomController : MonoBehaviour
         m_MoveDir.x = desiredMove.x * speed;
         m_MoveDir.z = desiredMove.z * speed;
 
+        // Moving blocks
+        if (hitInfo.collider != null)
+        {
+            var rigid = hitInfo.collider.GetComponent<MovingObject>();
+            if (rigid != null && Time.fixedDeltaTime != 0)
+            {
+                var newVel = rigid.DeltaPostion;
+                newVel.y = 0;
+                m_MoveDir += newVel / Time.fixedDeltaTime;
+            }
+        }
+
 
         if (m_CharacterController.isGrounded)
         {
@@ -290,6 +302,8 @@ public class FirstPersonCustomController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        hit.collider.SendMessage("PlayerCollide", player, SendMessageOptions.DontRequireReceiver);
+
         Rigidbody body = hit.collider.attachedRigidbody;
         //dont move the rigidbody if the character is on top of it
         if (m_CollisionFlags == CollisionFlags.Below)

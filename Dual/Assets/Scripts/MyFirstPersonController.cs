@@ -139,6 +139,8 @@ public class MyFirstPersonController : MonoBehaviour
         RaycastHit hit;
         isGrounded = Physics.Raycast(transform.position, -transform.up, out hit, 2.2f);
 
+        
+
         Debug.Log(isGrounded);
         m_MoveDir.x = desiredMove.x * speed;
         m_MoveDir.z = desiredMove.z * speed;
@@ -171,7 +173,7 @@ public class MyFirstPersonController : MonoBehaviour
                 else if (CrossPlatformInputManager.GetButton("Jump"))
                 {
                     if (m_MoveDir.y < 0)
-                        m_MoveDir.y *= 0.8f;
+                        m_MoveDir.y *= 0.85f;
                 }
             }
             //if (m_JumpReleased && m_Jumping)

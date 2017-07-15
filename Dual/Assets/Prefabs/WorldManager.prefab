@@ -88,7 +88,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1863963644469156
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +303,8 @@ MonoBehaviour:
   SharedWorld: {fileID: 1863963644469156}
   LightEffect: {fileID: 11400000, guid: c7bdd49ae66f8df4287e9b324f934d2e, type: 2}
   DarkEffect: {fileID: 11400000, guid: ee81679d3a9b00f4da03199ed0fdba27, type: 2}
+  LightSky: {fileID: 2100000, guid: 20ac443f139e31f4fb528348875a2fd5, type: 2}
+  DarkSky: {fileID: 2100000, guid: 73ce5afd7d565d84d99816082f81f5be, type: 2}
   _innerVingette:
     serializedVersion: 2
     m_Curve: []

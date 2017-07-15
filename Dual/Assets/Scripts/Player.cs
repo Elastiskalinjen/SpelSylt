@@ -72,6 +72,7 @@ public class Player : MonoBehaviour, IFPSListener {
                 if (CrossPlatformInputManager.GetButtonDown("Interact"))
                 {
                     hit.collider.transform.parent = World.LightWorld.transform;
+                    World.AddRestoreObject();
                 }
                 else
                 {
