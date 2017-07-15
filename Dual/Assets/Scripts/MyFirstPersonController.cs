@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 using UnityStandardAssets.CrossPlatformInput;
@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(AudioSource))]
-public class FirstPersonCustomController : MonoBehaviour
+public class MyFirstPersonController : MonoBehaviour
 {
     [SerializeField]
     private bool m_IsWalking;
@@ -54,8 +54,8 @@ public class FirstPersonCustomController : MonoBehaviour
     private float m_YRotation;
     private Vector2 m_Input;
     private Vector3 m_MoveDir = Vector3.zero;
-    private CharacterController m_CharacterController;
-    private CollisionFlags m_CollisionFlags;
+    //private CharacterController m_CharacterController;
+    //private CollisionFlags m_CollisionFlags;
     private bool m_PreviouslyGrounded;
     private Vector3 m_OriginalCameraPosition;
     private float m_StepCycle;
@@ -63,10 +63,15 @@ public class FirstPersonCustomController : MonoBehaviour
     private bool m_Jumping;
     private AudioSource m_AudioSource;
 
+    private CapsuleCollider m_collider;
+    private Rigidbody m_body;
+
+    private bool isGrounded = true;
+
     // Use this for initialization
     private void Start()
     {
-        m_CharacterController = GetComponent<CharacterController>();
+       // m_CharacterController = GetComponent<CharacterController>();
         m_Camera = Camera.main;
         m_OriginalCameraPosition = m_Camera.transform.localPosition;
         m_FovKick.Setup(m_Camera);
@@ -77,7 +82,9 @@ public class FirstPersonCustomController : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
         m_MouseLook.Init(transform, m_Camera.transform);
 
-      //  m_CharacterController.material.dynamicFriction = 0.9f;
+        m_collider = GetComponent<CapsuleCollider>();
+        m_body = GetComponent<Rigidbody>();
+        //  m_CharacterController.material.dynamicFriction = 0.9f;
     }
 
 
@@ -92,19 +99,19 @@ public class FirstPersonCustomController : MonoBehaviour
             m_JumpReleased = CrossPlatformInputManager.GetButtonUp("Jump");
         }
 
-        if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
+        if (!m_PreviouslyGrounded && isGrounded)
         {
             StartCoroutine(m_JumpBob.DoBobCycle());
             PlayLandingSound();
             m_MoveDir.y = 0f;
             m_Jumping = false;
         }
-        if (!m_CharacterController.isGrounded && !m_Jumping && m_PreviouslyGrounded)
+        if (!isGrounded && !m_Jumping && m_PreviouslyGrounded)
         {
             m_MoveDir.y = 0f;
         }
 
-        m_PreviouslyGrounded = m_CharacterController.isGrounded;
+        m_PreviouslyGrounded = isGrounded;
     }
 
 
@@ -125,15 +132,19 @@ public class FirstPersonCustomController : MonoBehaviour
 
         // get a normal for the surface that is being touched to move along it
         RaycastHit hitInfo;
-        Physics.SphereCast(transform.position, m_CharacterController.radius, Vector3.down, out hitInfo,
-                           m_CharacterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
+        Physics.SphereCast(transform.position, m_collider.radius, Vector3.down, out hitInfo,
+                           m_collider.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
         desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
+        RaycastHit hit;
+        isGrounded = Physics.Raycast(transform.position, -transform.up, out hit, 2.2f);
+
+        Debug.Log(isGrounded);
         m_MoveDir.x = desiredMove.x * speed;
         m_MoveDir.z = desiredMove.z * speed;
 
 
-        if (m_CharacterController.isGrounded)
+        if (isGrounded)
         {
             m_MoveDir.y = -m_StickToGroundForce;
 
@@ -173,7 +184,8 @@ public class FirstPersonCustomController : MonoBehaviour
             //    m_MoveDir.y *= 0.5f;
             //}
         }
-        m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
+       // 
+        m_body.AddForce(m_MoveDir * Time.fixedDeltaTime, ForceMode.VelocityChange); // m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
         ProgressStepCycle(speed);
         UpdateCameraPosition(speed);
@@ -191,9 +203,9 @@ public class FirstPersonCustomController : MonoBehaviour
 
     private void ProgressStepCycle(float speed)
     {
-        if (m_CharacterController.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
+        if (m_body.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
         {
-            m_StepCycle += (m_CharacterController.velocity.magnitude + (speed * (m_IsWalking ? 1f : m_RunstepLenghten))) *
+            m_StepCycle += (m_body.velocity.magnitude + (speed * (m_IsWalking ? 1f : m_RunstepLenghten))) *
                          Time.fixedDeltaTime;
         }
 
@@ -210,7 +222,7 @@ public class FirstPersonCustomController : MonoBehaviour
 
     private void PlayFootStepAudio()
     {
-        if (!m_CharacterController.isGrounded)
+        if (!isGrounded)
         {
             return;
         }
@@ -232,10 +244,10 @@ public class FirstPersonCustomController : MonoBehaviour
         {
             return;
         }
-        if (m_CharacterController.velocity.magnitude > 0 && m_CharacterController.isGrounded)
+        if (m_body.velocity.magnitude > 0 && isGrounded)
         {
             m_Camera.transform.localPosition =
-                m_HeadBob.DoHeadBob(m_CharacterController.velocity.magnitude +
+                m_HeadBob.DoHeadBob(m_body.velocity.magnitude +
                                   (speed * (m_IsWalking ? 1f : m_RunstepLenghten)));
             newCameraPosition = m_Camera.transform.localPosition;
             newCameraPosition.y = m_Camera.transform.localPosition.y - m_JumpBob.Offset();
@@ -274,7 +286,7 @@ public class FirstPersonCustomController : MonoBehaviour
 
         // handle speed change to give an fov kick
         // only if the player is going to a run, is running and the fovkick is to be used
-        if (m_IsWalking != waswalking && m_UseFovKick && m_CharacterController.velocity.sqrMagnitude > 0)
+        if (m_IsWalking != waswalking && m_UseFovKick && m_body.velocity.sqrMagnitude > 0)
         {
             StopAllCoroutines();
             StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
@@ -288,19 +300,19 @@ public class FirstPersonCustomController : MonoBehaviour
     }
 
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        Rigidbody body = hit.collider.attachedRigidbody;
-        //dont move the rigidbody if the character is on top of it
-        if (m_CollisionFlags == CollisionFlags.Below)
-        {
-            return;
-        }
+    //private void OnControllerColliderHit(ControllerColliderHit hit)
+    //{
+    //    Rigidbody body = hit.collider.attachedRigidbody;
+    //    //dont move the rigidbody if the character is on top of it
+    //    if (m_CollisionFlags == CollisionFlags.Below)
+    //    {
+    //        return;
+    //    }
 
-        if (body == null || body.isKinematic)
-        {
-            return;
-        }
-        body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
-    }
+    //    if (body == null || body.isKinematic)
+    //    {
+    //        return;
+    //    }
+    //    body.AddForceAtPosition(m_body.velocity * 0.1f, hit.point, ForceMode.Impulse);
+    //}
 }
