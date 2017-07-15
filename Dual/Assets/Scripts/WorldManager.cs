@@ -54,6 +54,7 @@ public class WorldManager : MonoBehaviour {
         DarkWorld.SetActive(false);
         SharedWorld.SetActive(true);
         CurrentWorldType = WorldType.Light;
+        RenderSettings.skybox = LightSky;
     }
 
     public void SwitchWorld()

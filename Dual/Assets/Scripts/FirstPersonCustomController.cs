@@ -172,7 +172,7 @@ public class FirstPersonCustomController : MonoBehaviour
                 else if (CrossPlatformInputManager.GetButton("Jump"))
                 {
                     if (m_MoveDir.y < 0)
-                        m_MoveDir.y *= 0.8f;
+                        m_MoveDir.y *= 0.87f;
                 }
             }
             //if (m_JumpReleased && m_Jumping)

@@ -88,7 +88,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1863963644469156
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LightWorld: {fileID: 1718838716098652}
   DarkWorld: {fileID: 1626040816062066}
+  TotalRestores: 1
   SharedWorld: {fileID: 1863963644469156}
   LightEffect: {fileID: 11400000, guid: c7bdd49ae66f8df4287e9b324f934d2e, type: 2}
   DarkEffect: {fileID: 11400000, guid: ee81679d3a9b00f4da03199ed0fdba27, type: 2}

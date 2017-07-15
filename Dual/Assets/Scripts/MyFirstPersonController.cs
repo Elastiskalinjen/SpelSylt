@@ -141,7 +141,6 @@ public class MyFirstPersonController : MonoBehaviour
 
         
 
-        Debug.Log(isGrounded);
         m_MoveDir.x = desiredMove.x * speed;
         m_MoveDir.z = desiredMove.z * speed;
 
