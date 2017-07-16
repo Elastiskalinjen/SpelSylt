@@ -69,6 +69,7 @@ public class WorldManager : MonoBehaviour {
 
     public void SwitchWorld(WorldType type)
     {
+        StopAllCoroutines();
         StartCoroutine(SwapAsync(type));
     }
 
@@ -89,7 +90,7 @@ public class WorldManager : MonoBehaviour {
             Effects.profile = LightEffect;
             RenderSettings.skybox = LightSky;
             RenderSettings.fogDensity = 0;
-            CurrentWorldType = WorldType.Light;
+           CurrentWorldType = WorldType.Light;
         }
         else if (type == WorldType.Dark)
         {
@@ -98,8 +99,13 @@ public class WorldManager : MonoBehaviour {
             Effects.profile = DarkEffect;
             RenderSettings.skybox = DarkSky;
             RenderSettings.fogDensity = 0.01f;
-            CurrentWorldType = WorldType.Dark;
+           CurrentWorldType = WorldType.Dark;
         }
+
+        //if (Physics.CheckCapsule(transform.position, transform.position + transform.up * 2, 1.2f, -1))
+        //{
+        //    SwitchWorld();
+        //}
     }
 	
 	// Update is called once per frame
@@ -157,8 +163,10 @@ public class WorldManager : MonoBehaviour {
         Swapping = true;
         _swapTiggered = false;
 
-        // _audio.PlayOneShot(_audio.clip);
-        _audio.PlayOneShot(WarpSound);
+       // CurrentWorldType = type;
+
+       // _audio.PlayOneShot(_audio.clip);
+       _audio.PlayOneShot(WarpSound);
 
         for (float t = 0; t < 1.0f; t += Time.unscaledDeltaTime * 1.8f)
         {

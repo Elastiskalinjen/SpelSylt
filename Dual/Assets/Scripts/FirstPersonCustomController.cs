@@ -48,6 +48,9 @@ public class FirstPersonCustomController : MonoBehaviour
     [SerializeField]
     private Player player;
 
+    [SerializeField]
+    private AudioSource m_WindSound;
+
     private Vingette m_vingette;
    
 
@@ -97,6 +100,12 @@ public class FirstPersonCustomController : MonoBehaviour
             m_JumpReleased = CrossPlatformInputManager.GetButtonUp("Jump");
         }
 
+        //if (!m_Jump)
+        //{
+        //    if (m_WindSound.isPlaying)
+        //        m_WindSound.Stop();
+        //}
+        
         if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
         {
             StartCoroutine(m_JumpBob.DoBobCycle());
@@ -144,11 +153,13 @@ public class FirstPersonCustomController : MonoBehaviour
             if (rigid != null && Time.fixedDeltaTime != 0)
             {
                 var newVel = rigid.DeltaPostion;
-                //newVel.y = 0;
+                if (newVel.y > 0)
+                    newVel.y = 0;
                 m_MoveDir += newVel / Time.fixedDeltaTime;
             }
         }
 
+        var useWind = false;
         m_vingette.enabled = false;
         if (m_CharacterController.isGrounded)
         {
@@ -180,19 +191,25 @@ public class FirstPersonCustomController : MonoBehaviour
                     {
                         m_MoveDir.y *= 0.87f;
                         m_vingette.enabled = true;
+
+                        useWind = true;
                     }
                 }
             }
-            //if (m_JumpReleased && m_Jumping)
-            //{
-            //    m_MoveDir.y *= 0.3f;
-            //    m_JumpReleased = false;
-            //}
-            //else if (m_MoveDir.y < 0 && !m_JumpReleased)
-            //{
-            //    m_MoveDir.y *= 0.5f;
-            //}
+            
         }
+
+        if (useWind)
+        {
+            if (!m_WindSound.isPlaying)
+                m_WindSound.Play();
+        
+        } else
+        {
+            if (m_WindSound.isPlaying)
+                m_WindSound.Stop();
+        }
+
         m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
         ProgressStepCycle(speed);

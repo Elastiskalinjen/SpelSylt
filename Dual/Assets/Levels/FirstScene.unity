@@ -177,6 +177,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 114397032489238806, guid: 73ac2426dcdba7d4fbd566fbd46413d5,
+        type: 2}
+      propertyPath: VectorToMove.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114397032489238806, guid: 73ac2426dcdba7d4fbd566fbd46413d5,
+        type: 2}
+      propertyPath: VectorToMove.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114397032489238806, guid: 73ac2426dcdba7d4fbd566fbd46413d5,
+        type: 2}
+      propertyPath: Speed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 73ac2426dcdba7d4fbd566fbd46413d5, type: 2}
   m_IsPrefabParent: 0
@@ -940,6 +955,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2efeb8c3437a6c94b8c8a31ff8a09db9, type: 2}
   m_IsPrefabParent: 0
+--- !u!82 &901689827 stripped
+AudioSource:
+  m_PrefabParentObject: {fileID: 82161735862972604, guid: 5987cd98db0a8a447b765e621919795f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1863304730}
 --- !u!1 &915033404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,7 +1162,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1118488338}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6521626, y: 0.9584844, z: 5.7192836}
+  m_LocalPosition: {x: -1.36, y: 0.9584844, z: 8.17}
   m_LocalScale: {x: 1, y: 2.522631, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1763,25 +1783,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114689346088134034, guid: 5987cd98db0a8a447b765e621919795f,
+    - target: {fileID: 114198374839058418, guid: 5987cd98db0a8a447b765e621919795f,
         type: 2}
-      propertyPath: backfaceCulling
+      propertyPath: m_WindSound
+      value: 
+      objectReference: {fileID: 901689827}
+    - target: {fileID: 82161735862972604, guid: 5987cd98db0a8a447b765e621919795f,
+        type: 2}
+      propertyPath: m_PlayOnAwake
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114619451663335594, guid: 5987cd98db0a8a447b765e621919795f,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114619451663335594, guid: 5987cd98db0a8a447b765e621919795f,
-        type: 2}
-      propertyPath: MinRadius
-      value: 0.919
-      objectReference: {fileID: 0}
-    - target: {fileID: 114619451663335594, guid: 5987cd98db0a8a447b765e621919795f,
-        type: 2}
-      propertyPath: MaxRadius
-      value: 0.383
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5987cd98db0a8a447b765e621919795f, type: 2}

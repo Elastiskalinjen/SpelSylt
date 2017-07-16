@@ -11,9 +11,9 @@ public class Player : MonoBehaviour, IFPSListener {
     [SerializeField]
     private AudioClip DeathSound;
 
-    private Text InteractText; 
+    private Text InteractText;
 
-    private WorldManager World;
+    public WorldManager World {get; private set; }
 
     public Camera Camera { get; set; }
 
@@ -63,17 +63,27 @@ public class Player : MonoBehaviour, IFPSListener {
 
         //[Optional] Check the players feet and push them up if something clips through their feet.
         //(Useful for vertical moving platforms)
-        if (Physics.Raycast(transform.position + Vector3.up, -Vector3.up, out hit, 1))
-        {
-           // controller.Move(Vector3.up * (1 - hit.distance));
-        }
+        //if (Physics.Raycast(transform.position - Vector3.up, -Vector3.up, out hit, 0.1f))
+        //{
+        //    Debug.Log(hit.collider.name);
+        //   controller.Move((Vector3.up * (1 - hit.distance)) * Time.deltaTime);
+        //}
     }
 
     // Update is called once per frame
     void Update () {
         CheckInteract();
-        UpdateSweep();
+
+        if (CrossPlatformInputManager.GetButtonUp("Respawn"))
+        {
+            Respawn();
+        }
 	}
+
+    void FixedUpdate()
+    {
+        UpdateSweep();
+    }
 
     public void Respawn()
     {
@@ -94,7 +104,7 @@ public class Player : MonoBehaviour, IFPSListener {
     private void CheckInteract()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.transform.position, Camera.transform.forward,  out hit, 2.5f))
+        if (Physics.Raycast(Camera.transform.position, Camera.transform.forward,  out hit, 3.5f))
         {
             if (hit.collider.tag == "RestoreObject" && World.CurrentWorldType == WorldManager.WorldType.Dark)
             {
@@ -102,6 +112,12 @@ public class Player : MonoBehaviour, IFPSListener {
                 {
                     hit.collider.transform.parent = World.LightWorld.transform;
                     World.AddRestoreObject(hit.collider.gameObject);
+
+                    var extra = GameObject.Find("ExtraRestore");
+                    foreach (Transform child in extra.transform)
+                    {
+                        child.gameObject.SetActive(true);
+                    }
                 }
                 else
                 {
@@ -117,7 +133,8 @@ public class Player : MonoBehaviour, IFPSListener {
 
     public void OnJump()
     {
-        World.SwitchWorld();
+        if (World.enabled)
+            World.SwitchWorld();
     }
 
 
