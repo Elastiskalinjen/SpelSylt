@@ -16,6 +16,9 @@ public class Player : MonoBehaviour, IFPSListener {
 
     private CharacterController controller;
 
+    private WorldManager.WorldType checkpointWorld;
+    private Vector3 checkpointPosition;
+
     // Use this for initialization
     void Start () {
         World = FindObjectOfType<WorldManager>();
@@ -25,6 +28,12 @@ public class Player : MonoBehaviour, IFPSListener {
         controller = GetComponent<CharacterController>();
         //Distance is slightly larger than the
         distance = controller.radius + 0.2f;
+
+        checkpointPosition = transform.position;
+        checkpointWorld = WorldManager.WorldType.Light;
+
+        StartCoroutine(FadeLevelText(5, 1, GameObject.Find("LevelName").GetComponent<Text>()));
+        StartCoroutine(FadeLevelText(4.3f, 1, GameObject.Find("WelcomeText").GetComponent<Text>()));
     }
 
     float distance;
@@ -44,7 +53,8 @@ public class Player : MonoBehaviour, IFPSListener {
             if (Physics.CapsuleCast(p1, p2, 0, new Vector3(Mathf.Cos(i), 0, Mathf.Sin(i)), out hit, distance))
             {
                 //If the object is touched by a platform, move the object away from it
-                controller.Move(hit.normal * (distance - hit.distance));
+                if (!hit.collider.isTrigger)
+                    controller.Move(hit.normal * (distance - hit.distance));
             }
         }
 
@@ -61,6 +71,18 @@ public class Player : MonoBehaviour, IFPSListener {
         CheckInteract();
         UpdateSweep();
 	}
+
+    public void Respawn()
+    {
+        transform.position = checkpointPosition;
+        World.SwitchWorld(checkpointWorld);
+    }
+
+    public void Checkpoint(Checkpoint p)
+    {
+        checkpointPosition = p.transform.position;
+        checkpointWorld = World.CurrentWorldType;
+    }
 
     private void CheckInteract()
     {
@@ -89,5 +111,19 @@ public class Player : MonoBehaviour, IFPSListener {
     public void OnJump()
     {
         World.SwitchWorld();
+    }
+
+
+    public IEnumerator FadeLevelText(float delay, float t, Text i)
+    {
+        yield return new WaitForSeconds(delay);
+
+        i.color = new Color(i.color.r, i.color.g, i.color.b, 1);
+        while (i.color.a > 0.0f)
+        {
+            i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
+            yield return null;
+        }
+        i.enabled = false;
     }
 }
