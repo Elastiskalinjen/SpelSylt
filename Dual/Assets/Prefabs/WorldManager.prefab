@@ -388,6 +388,8 @@ MonoBehaviour:
   LightSky: {fileID: 2100000, guid: 20ac443f139e31f4fb528348875a2fd5, type: 2}
   DarkSky: {fileID: 2100000, guid: 73ce5afd7d565d84d99816082f81f5be, type: 2}
   WarpSound: {fileID: 8300000, guid: c66b5b6831545d448938f8ff37b1657e, type: 3}
+  DarkMusic: {fileID: 8300000, guid: 4554ae83ef7c40a42b669687d339cf34, type: 3}
+  LightMusic: {fileID: 8300000, guid: 557c3b8d88626ab45becf16c417fea87, type: 3}
   _innerVingette:
     serializedVersion: 2
     m_Curve: []

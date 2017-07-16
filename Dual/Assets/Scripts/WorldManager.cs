@@ -41,6 +41,12 @@ public class WorldManager : MonoBehaviour {
     [SerializeField]
     private AudioClip WarpSound;
 
+    [SerializeField]
+    private AudioClip DarkMusic;
+    public AudioClip LightMusic;
+
+    private CrossFader MusicFader;
+
     public WorldType CurrentWorldType {get; private set;}
 
     private PostProcessingBehaviour Effects;
@@ -52,6 +58,7 @@ public class WorldManager : MonoBehaviour {
         Effects = FindObjectOfType<PostProcessingBehaviour>();
         Player = FindObjectOfType<Player>();
         _audio = GetComponent<AudioSource>();
+        MusicFader = FindObjectOfType<CrossFader>();
 
         RestoreSuccessText = GameObject.Find("RestoreSuccess").GetComponent<Text>();
         RestoreSuccessText.enabled = false;
@@ -69,6 +76,8 @@ public class WorldManager : MonoBehaviour {
 
     public void SwitchWorld(WorldType type)
     {
+        if (MusicFader != null)
+            MusicFader.CrossFade(type == WorldType.Light ? LightMusic : DarkMusic, 1, 1.2f);
         StopAllCoroutines();
         StartCoroutine(SwapAsync(type));
     }

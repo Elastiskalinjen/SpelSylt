@@ -1839,7 +1839,7 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "You restored the balance!\n\n\n\n\nA GAME MADE BY\n\n\nSIMON BOTH\xC9N\nSEBASTIAN
-    LIND\n\n\n#GMTKJam 2017"
+    LIND\n\n\n\nMusic By:\nKai Engel\n\n\n#GMTKJam 2017"
 --- !u!222 &1439325504
 CanvasRenderer:
   m_ObjectHideFlags: 0
