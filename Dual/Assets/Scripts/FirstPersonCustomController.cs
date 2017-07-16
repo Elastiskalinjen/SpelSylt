@@ -47,6 +47,7 @@ public class FirstPersonCustomController : MonoBehaviour
 
     [SerializeField]
     private Player player;
+   
 
     private Camera m_Camera;
     private bool m_Jump;

@@ -82,6 +82,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4831943340122312}
   - component: {fileID: 114971636078494348}
+  - component: {fileID: 82734609583579598}
   m_Layer: 0
   m_Name: WorldManager
   m_TagString: Untagged
@@ -187,6 +188,86 @@ Transform:
   m_Father: {fileID: 4861786351922060}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!82 &82734609583579598
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1789373536638580}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.487
+  m_Pitch: 2.3
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!108 &108666507426632162
 Light:
   m_ObjectHideFlags: 1
@@ -306,6 +387,7 @@ MonoBehaviour:
   DarkEffect: {fileID: 11400000, guid: ee81679d3a9b00f4da03199ed0fdba27, type: 2}
   LightSky: {fileID: 2100000, guid: 20ac443f139e31f4fb528348875a2fd5, type: 2}
   DarkSky: {fileID: 2100000, guid: 73ce5afd7d565d84d99816082f81f5be, type: 2}
+  WarpSound: {fileID: 8300000, guid: c66b5b6831545d448938f8ff37b1657e, type: 3}
   _innerVingette:
     serializedVersion: 2
     m_Curve: []

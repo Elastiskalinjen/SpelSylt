@@ -35,6 +35,10 @@ public class WorldManager : MonoBehaviour {
     [SerializeField]
     private Material DarkSky;
 
+
+    [SerializeField]
+    private AudioClip WarpSound;
+
     public WorldType CurrentWorldType {get; private set;}
 
     private PostProcessingBehaviour Effects;
@@ -45,6 +49,7 @@ public class WorldManager : MonoBehaviour {
     void Start () {
         Effects = FindObjectOfType<PostProcessingBehaviour>();
         Player = FindObjectOfType<Player>();
+        _audio = GetComponent<AudioSource>();
         OnNewLevel();
 	}
 
@@ -138,7 +143,8 @@ public class WorldManager : MonoBehaviour {
         Swapping = true;
         _swapTiggered = false;
 
-       // _audio.PlayOneShot(_audio.clip);
+        // _audio.PlayOneShot(_audio.clip);
+        _audio.PlayOneShot(WarpSound);
 
         for (float t = 0; t < 1.0f; t += Time.unscaledDeltaTime * 1.8f)
         {

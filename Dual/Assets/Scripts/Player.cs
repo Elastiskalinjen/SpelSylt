@@ -8,6 +8,9 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour, IFPSListener {
 
+    [SerializeField]
+    private AudioClip DeathSound;
+
     private Text InteractText; 
 
     private WorldManager World;
@@ -76,6 +79,8 @@ public class Player : MonoBehaviour, IFPSListener {
     {
         transform.position = checkpointPosition;
         World.SwitchWorld(checkpointWorld);
+        GetComponent<AudioSource>().clip = ( DeathSound);
+        GetComponent<AudioSource>().Play();
     }
 
     public void Checkpoint(Checkpoint p)
