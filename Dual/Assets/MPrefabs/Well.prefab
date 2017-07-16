@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 33037492492643216}
   - component: {fileID: 23505637079701980}
   - component: {fileID: 64544260977151272}
+  - component: {fileID: 114881630799519324}
   m_Layer: 0
   m_Name: RealWell
-  m_TagString: Untagged
+  m_TagString: RestoreObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -211,3 +212,18 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: fc960a97d9e1fc24d8a41f921ba1f08b, type: 3}
+--- !u!114 &114881630799519324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1346080038597600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
+  originalLayer: 0
+  originalMaterials: []

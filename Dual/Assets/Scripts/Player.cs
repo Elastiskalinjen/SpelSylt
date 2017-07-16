@@ -79,8 +79,8 @@ public class Player : MonoBehaviour, IFPSListener {
     {
         transform.position = checkpointPosition;
         World.SwitchWorld(checkpointWorld);
-        GetComponent<AudioSource>().clip = ( DeathSound);
-        GetComponent<AudioSource>().Play();
+     AudioSource.PlayClipAtPoint ( DeathSound, transform.position);
+        ///GetComponent<AudioSource>().Play();
     }
 
     public void Checkpoint(Checkpoint p)
