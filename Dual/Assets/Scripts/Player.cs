@@ -36,7 +36,7 @@ public class Player : MonoBehaviour, IFPSListener {
         checkpointWorld = WorldManager.WorldType.Light;
 
         StartCoroutine(FadeLevelText(5, 1, GameObject.Find("LevelName").GetComponent<Text>()));
-        StartCoroutine(FadeLevelText(4.3f, 1, GameObject.Find("WelcomeText").GetComponent<Text>()));
+        StartCoroutine(FadeLevelText(4.4f, 1, GameObject.Find("WelcomeText").GetComponent<Text>()));
     }
 
     float distance;
@@ -79,7 +79,7 @@ public class Player : MonoBehaviour, IFPSListener {
     {
         transform.position = checkpointPosition;
         World.SwitchWorld(checkpointWorld);
-     AudioSource.PlayClipAtPoint ( DeathSound, transform.position);
+        AudioSource.PlayClipAtPoint ( DeathSound, transform.position);
         ///GetComponent<AudioSource>().Play();
     }
 
@@ -92,14 +92,14 @@ public class Player : MonoBehaviour, IFPSListener {
     private void CheckInteract()
     {
         RaycastHit hit;
-        if (Physics.Raycast(Camera.transform.position, Camera.transform.forward,  out hit, 2.2f))
+        if (Physics.Raycast(Camera.transform.position, Camera.transform.forward,  out hit, 2.5f))
         {
             if (hit.collider.tag == "RestoreObject" && World.CurrentWorldType == WorldManager.WorldType.Dark)
             {
                 if (CrossPlatformInputManager.GetButtonDown("Interact"))
                 {
                     hit.collider.transform.parent = World.LightWorld.transform;
-                    World.AddRestoreObject();
+                    World.AddRestoreObject(hit.collider.gameObject);
                 }
                 else
                 {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PostProcessing;
+using UnityEngine.UI;
 
 public class WorldManager : MonoBehaviour {
 
@@ -19,6 +20,7 @@ public class WorldManager : MonoBehaviour {
     private int TotalRestores = 1;
 
     private int NumberOfRestores;
+    private Text RestoreSuccessText;
 
     [SerializeField]
     private GameObject SharedWorld;
@@ -50,6 +52,9 @@ public class WorldManager : MonoBehaviour {
         Effects = FindObjectOfType<PostProcessingBehaviour>();
         Player = FindObjectOfType<Player>();
         _audio = GetComponent<AudioSource>();
+
+        RestoreSuccessText = GameObject.Find("RestoreSuccess").GetComponent<Text>();
+        RestoreSuccessText.enabled = false;
         OnNewLevel();
 	}
 
@@ -83,6 +88,7 @@ public class WorldManager : MonoBehaviour {
             DarkWorld.SetActive(false);
             Effects.profile = LightEffect;
             RenderSettings.skybox = LightSky;
+            RenderSettings.fogDensity = 0;
             CurrentWorldType = WorldType.Light;
         }
         else if (type == WorldType.Dark)
@@ -91,6 +97,7 @@ public class WorldManager : MonoBehaviour {
             DarkWorld.SetActive(true);
             Effects.profile = DarkEffect;
             RenderSettings.skybox = DarkSky;
+            RenderSettings.fogDensity = 0.01f;
             CurrentWorldType = WorldType.Dark;
         }
     }
@@ -115,10 +122,17 @@ public class WorldManager : MonoBehaviour {
     [SerializeField]
     private AnimationCurve _timeScale;
 
-    public void AddRestoreObject()
+    public void AddRestoreObject(GameObject obj)
     {
         NumberOfRestores++;
+        RestoreSuccessText.text = "YOU RESTORED THE " + obj.name.ToUpper() + "!";
+        RestoreSuccessText.enabled = true;
+        Invoke("HideRestoreSuccess", 4);
+    }
 
+    private void HideRestoreSuccess()
+    {
+        RestoreSuccessText.enabled = false;
     }
 
     // [SerializeField]
