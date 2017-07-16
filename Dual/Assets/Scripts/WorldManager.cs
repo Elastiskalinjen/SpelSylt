@@ -57,15 +57,20 @@ public class WorldManager : MonoBehaviour {
         RenderSettings.skybox = LightSky;
     }
 
-    public void SwitchWorld()
+    public void SwitchWorld(WorldType type)
     {
-        StartCoroutine(SwapAsync());
-        //SwitchWorld(CurrentWorldType == WorldType.Dark ? WorldType.Light : WorldType.Dark);
+        StartCoroutine(SwapAsync(type));
     }
 
-    private void SetNewWorld()
+    public void SwitchWorld()
     {
-       var type = CurrentWorldType == WorldType.Dark ? WorldType.Light : WorldType.Dark;
+        SwitchWorld(CurrentWorldType == WorldType.Dark ? WorldType.Light : WorldType.Dark);
+        //SwitchWorld();
+    }
+
+    private void SetNewWorld(WorldType type)
+    {
+      // var type = CurrentWorldType == WorldType.Dark ? WorldType.Light : WorldType.Dark;
 
         if (type == WorldType.Light)
         {
@@ -86,9 +91,9 @@ public class WorldManager : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	//void Update () {
 		
-	}
+	//}
 
 
     //[SerializeField]
@@ -128,7 +133,7 @@ public class WorldManager : MonoBehaviour {
     /// <summary>
 	/// Controls a bunch of stuff like vingette and FoV over time and calls the swap cameras function after a fixed duration.
 	/// </summary>
-	IEnumerator SwapAsync()
+	IEnumerator SwapAsync(WorldType type)
     {
         Swapping = true;
         _swapTiggered = false;
@@ -149,7 +154,7 @@ public class WorldManager : MonoBehaviour {
             {
                 _swapTiggered = true;
                 // _twinCameras.SwapCameras();
-                SetNewWorld();
+                SetNewWorld(type);
             }
 
             yield return null;
@@ -159,7 +164,7 @@ public class WorldManager : MonoBehaviour {
         if (!_swapTiggered)
         {
             _swapTiggered = true;
-            SetNewWorld();
+            SetNewWorld(type);
             //_twinCameras.SwapCameras();
         }
 
