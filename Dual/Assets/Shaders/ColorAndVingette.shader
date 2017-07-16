@@ -57,7 +57,7 @@ Shader "Hidden/ColorAndVingette"
 
 				half vingette = smoothstep(_MinRadius, _MaxRadius, dist);
 
-				return col * (1 - vingette);
+				return col * (2 - vingette);
 			}
 			ENDCG
 		}

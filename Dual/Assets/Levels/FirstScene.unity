@@ -1768,6 +1768,21 @@ Prefab:
       propertyPath: backfaceCulling
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114619451663335594, guid: 5987cd98db0a8a447b765e621919795f,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114619451663335594, guid: 5987cd98db0a8a447b765e621919795f,
+        type: 2}
+      propertyPath: MinRadius
+      value: 0.919
+      objectReference: {fileID: 0}
+    - target: {fileID: 114619451663335594, guid: 5987cd98db0a8a447b765e621919795f,
+        type: 2}
+      propertyPath: MaxRadius
+      value: 0.383
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5987cd98db0a8a447b765e621919795f, type: 2}
   m_IsPrefabParent: 0

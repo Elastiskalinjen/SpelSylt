@@ -77,6 +77,7 @@ public class Player : MonoBehaviour, IFPSListener {
 
     public void Respawn()
     {
+        GetComponent<FirstPersonCustomController>().m_MoveDir.y = 0;
         transform.position = checkpointPosition;
         World.SwitchWorld(checkpointWorld);
         AudioSource.PlayClipAtPoint ( DeathSound, transform.position);
@@ -86,6 +87,7 @@ public class Player : MonoBehaviour, IFPSListener {
     public void Checkpoint(Checkpoint p)
     {
         checkpointPosition = p.transform.position;
+        checkpointPosition.y += 2;
         checkpointWorld = World.CurrentWorldType;
     }
 

@@ -47,6 +47,8 @@ public class FirstPersonCustomController : MonoBehaviour
 
     [SerializeField]
     private Player player;
+
+    private Vingette m_vingette;
    
 
     private Camera m_Camera;
@@ -54,7 +56,7 @@ public class FirstPersonCustomController : MonoBehaviour
     private bool m_JumpReleased;
     private float m_YRotation;
     private Vector2 m_Input;
-    private Vector3 m_MoveDir = Vector3.zero;
+    public Vector3 m_MoveDir = Vector3.zero;
     private CharacterController m_CharacterController;
     private CollisionFlags m_CollisionFlags;
     private bool m_PreviouslyGrounded;
@@ -78,6 +80,8 @@ public class FirstPersonCustomController : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
         m_MouseLook.Init(transform, m_Camera.transform);
 
+
+        m_vingette = GetComponentInChildren<Vingette>();
       //  m_CharacterController.material.dynamicFriction = 0.9f;
     }
 
@@ -140,12 +144,12 @@ public class FirstPersonCustomController : MonoBehaviour
             if (rigid != null && Time.fixedDeltaTime != 0)
             {
                 var newVel = rigid.DeltaPostion;
-                newVel.y = 0;
+                //newVel.y = 0;
                 m_MoveDir += newVel / Time.fixedDeltaTime;
             }
         }
 
-
+        m_vingette.enabled = false;
         if (m_CharacterController.isGrounded)
         {
             m_MoveDir.y = -m_StickToGroundForce;
@@ -162,7 +166,7 @@ public class FirstPersonCustomController : MonoBehaviour
         else
         {
             m_MoveDir += Physics.gravity * m_GravityMultiplier * Time.fixedDeltaTime;
-
+            
             if (m_Jumping)
             {
                 if (m_JumpReleased)
@@ -173,7 +177,10 @@ public class FirstPersonCustomController : MonoBehaviour
                 else if (CrossPlatformInputManager.GetButton("Jump"))
                 {
                     if (m_MoveDir.y < 0)
+                    {
                         m_MoveDir.y *= 0.87f;
+                        m_vingette.enabled = true;
+                    }
                 }
             }
             //if (m_JumpReleased && m_Jumping)

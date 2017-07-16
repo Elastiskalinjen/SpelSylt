@@ -14,6 +14,9 @@ public class Checkpoint : MonoBehaviour {
     {
         var player = other.GetComponent<Player>();
         if (player != null)
+        {
             player.Checkpoint(this);
+            this.enabled = false;
+        }
     }
 }
