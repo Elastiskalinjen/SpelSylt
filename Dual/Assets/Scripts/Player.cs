@@ -22,6 +22,8 @@ public class Player : MonoBehaviour, IFPSListener {
     private WorldManager.WorldType checkpointWorld;
     private Vector3 checkpointPosition;
 
+    private GameObject extra;
+
     // Use this for initialization
     void Start () {
         World = FindObjectOfType<WorldManager>();
@@ -34,6 +36,8 @@ public class Player : MonoBehaviour, IFPSListener {
 
         checkpointPosition = transform.position;
         checkpointWorld = WorldManager.WorldType.Light;
+
+        extra = GameObject.Find("ExtraRestore");
 
         StartCoroutine(FadeLevelText(5, 1, GameObject.Find("LevelName").GetComponent<Text>()));
         StartCoroutine(FadeLevelText(4.4f, 1, GameObject.Find("WelcomeText").GetComponent<Text>()));
@@ -87,7 +91,7 @@ public class Player : MonoBehaviour, IFPSListener {
 
     public void Respawn()
     {
-        GetComponent<FirstPersonCustomController>().m_MoveDir.y = 0;
+        GetComponent<FirstPersonCustomController>().m_MoveDir = Vector3.zero;
         transform.position = checkpointPosition;
         World.SwitchWorld(checkpointWorld);
         AudioSource.PlayClipAtPoint ( DeathSound, transform.position);
@@ -113,10 +117,12 @@ public class Player : MonoBehaviour, IFPSListener {
                     hit.collider.transform.parent = World.LightWorld.transform;
                     World.AddRestoreObject(hit.collider.gameObject);
 
-                    var extra = GameObject.Find("ExtraRestore");
-                    foreach (Transform child in extra.transform)
+                    if (extra != null)
                     {
-                        child.gameObject.SetActive(true);
+                        foreach (Transform child in extra.transform)
+                        {
+                            child.gameObject.SetActive(true);
+                        }
                     }
                 }
                 else

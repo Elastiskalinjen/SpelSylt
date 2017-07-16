@@ -86,7 +86,7 @@ LightmapSettings:
     m_PVRFilteringAtrousColorSigma: 1
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
-  m_LightingDataAsset: {fileID: 112000008, guid: c5563f6887d240d44a786458d0a83a85,
+  m_LightingDataAsset: {fileID: 112000016, guid: c5563f6887d240d44a786458d0a83a85,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -5798,7 +5798,7 @@ Prefab:
     - target: {fileID: 114397032489238806, guid: 73ac2426dcdba7d4fbd566fbd46413d5,
         type: 2}
       propertyPath: Speed
-      value: 3
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 114397032489238806, guid: 73ac2426dcdba7d4fbd566fbd46413d5,
         type: 2}
@@ -11613,7 +11613,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4949624005340860, guid: 4058af96490a5754490c16eae79b3dca, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4725517587710448, guid: 4058af96490a5754490c16eae79b3dca, type: 2}
       propertyPath: m_RootOrder
